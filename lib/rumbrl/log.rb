@@ -23,7 +23,7 @@ module Rumbrl
       @logger = ::Logger.new(log_file(path), shift_age: age, shift_size: size)
       @data_format = data_format
 
-      @logger.formatter = log_formatter(log_format)
+      @logger.formatter = log_formatter(log_format) if log_format
     end
 
     def log_formatter(log_format)
