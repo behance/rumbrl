@@ -7,6 +7,7 @@ describe Rumbrl::Log do
   before(:each) do
     allow(logger_double).to receive(:level=)
     allow(logger_double).to receive(:datetime_format=)
+    allow(logger_double).to receive(:formatter=)
     allow(::Logger).to receive(:new).and_return logger_double
     # TODO: make this...less hacky
     allow(::File).to receive(:open).and_return(STDOUT)

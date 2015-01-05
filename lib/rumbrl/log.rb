@@ -19,9 +19,30 @@ module Rumbrl
                    :fatal?,
                    :info?
 
-    def initialize(path, age, size, data_format)
+    def initialize(path, age, size, data_format, log_format = nil)
       @logger = ::Logger.new(log_file(path), shift_age: age, shift_size: size)
       @data_format = data_format
+
+      @logger.formatter = log_formatter(log_format)
+    end
+
+    def log_formatter(log_format)
+      # All the underscoring is for rubocop
+      proc do |_severity, datetime, _progname, _message|
+        # Set some values that can be used in the formatter
+        _datetime = datetime.strftime(datetime_format)
+        _pid = Process.pid
+
+        formatted_string = log_format.gsub(/%\w+/) do |pattern|
+          variable = pattern.gsub('%', '_')
+
+          if binding.local_variable_defined?(variable)
+            binding.local_variable_get(variable)
+          end
+        end
+
+        "#{formatted_string}\n"
+      end
     end
 
     def method_missing(name, *args)
