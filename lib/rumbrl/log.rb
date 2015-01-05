@@ -26,24 +26,6 @@ module Rumbrl
       @logger.formatter = log_formatter(log_format) if log_format
     end
 
-    def log_formatter(log_format)
-      proc do |severity, datetime, progname, message|
-        values = {
-          severity: severity,
-          datetime: datetime.strftime(datetime_format),
-          pid: Process.pid,
-          progname: progname,
-          message: message
-        }
-
-        values.each do |k, v|
-          log_format = log_format.gsub(/%#{k.to_s}%/, v.to_s)
-        end
-
-        "#{log_format}\n"
-      end
-    end
-
     def method_missing(name, *args)
       name = name.to_sym
       return super(name, *args) unless ALLOWED_METHODS.member? name
@@ -64,6 +46,24 @@ module Rumbrl
 
     def format_message(message, data)
       sprintf @data_format, message, data
+    end
+
+    def log_formatter(log_format)
+      proc do |severity, datetime, progname, message|
+        values = {
+          severity: severity,
+          datetime: datetime.strftime(datetime_format),
+          pid: Process.pid,
+          progname: progname,
+          message: message
+        }
+
+        values.each do |k, v|
+          log_format = log_format.gsub(/%#{k.to_s}%/, v.to_s)
+        end
+
+        "#{log_format}\n"
+      end
     end
   end
 end
