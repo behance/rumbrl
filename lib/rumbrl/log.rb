@@ -11,6 +11,7 @@ module Rumbrl
     attr_reader :logger, :data_format
 
     def_delegators :logger,
+                   :datetime_format,
                    :datetime_format=,
                    :level=,
                    :log,
@@ -19,9 +20,11 @@ module Rumbrl
                    :fatal?,
                    :info?
 
-    def initialize(path, age, size, data_format)
+    def initialize(path, age, size, data_format, log_format = nil)
       @logger = ::Logger.new(log_file(path), shift_age: age, shift_size: size)
       @data_format = data_format
+
+      @logger.formatter = log_formatter(log_format) if log_format
     end
 
     def method_missing(name, *args)
@@ -44,6 +47,26 @@ module Rumbrl
 
     def format_message(message, data)
       sprintf @data_format, message, data
+    end
+
+    def log_formatter(log_format)
+      proc do |severity, datetime, progname, message|
+        datetime = datetime.strftime(datetime_format) if datetime_format
+
+        values = {
+          severity: severity,
+          datetime: datetime,
+          pid: Process.pid,
+          progname: progname,
+          message: message
+        }
+
+        values.each do |k, v|
+          log_format = log_format.gsub(/%#{k.to_s}%/, v.to_s)
+        end
+
+        "#{log_format}\n"
+      end
     end
   end
 end

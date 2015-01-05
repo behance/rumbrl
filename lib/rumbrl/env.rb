@@ -17,8 +17,12 @@ module Rumbrl
       ENV.fetch('LOG_TIME_FORMAT', '[%F %T %z]')
     end
 
-    def self.log_format
+    def self.data_format
       ENV.fetch('LOG_DATA_FORMAT', '[%s] [%s]')
+    end
+
+    def self.log_format
+      ENV.fetch('LOG_FORMAT', nil)
     end
   end
 end

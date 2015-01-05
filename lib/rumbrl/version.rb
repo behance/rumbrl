@@ -2,5 +2,5 @@
 
 # version const for gem
 module Rumbrl
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
 end

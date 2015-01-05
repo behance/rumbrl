@@ -6,7 +6,7 @@ module Rumbrl
   # broken regulations & underaged workers abound
   class Factory
     attr_reader :dest, :name
-    attr_accessor :size, :age, :level, :log_format, :time_format
+    attr_accessor :size, :age, :level, :log_format, :data_format, :time_format
 
     def self.create(nm, path: nil, age: nil, size: nil, level: nil)
       new(nm, path: path, age: age, size: size, level: level).generate
@@ -15,6 +15,7 @@ module Rumbrl
     def initialize(nm, path: nil, age: nil, size: nil, level: nil)
       @name = nm
       @log_format = Env.log_format
+      @data_format = Env.data_format
       @time_format = Env.time_format
       @size ||= (size || Env.shift_size)
       @age ||= (age || Env.shift_age)
@@ -30,7 +31,7 @@ module Rumbrl
     private
 
     def generate_logger
-      logger = Log.new(dest, age, size, log_format)
+      logger = Log.new(dest, age, size, data_format, log_format)
       logger.level = level
       logger.datetime_format = time_format
       logger
