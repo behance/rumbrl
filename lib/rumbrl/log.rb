@@ -27,14 +27,14 @@ module Rumbrl
     end
 
     def log_formatter(log_format)
-      # All the underscoring is for rubocop
-      proc do |_severity, datetime, _progname, _message|
+      # rubocop:disable Lint/UnusedBlockArgument, Lint/UselessAssignment
+      proc do |severity, datetime, progname, message|
         # Set some values that can be used in the formatter
-        _datetime = datetime.strftime(datetime_format)
-        _pid = Process.pid
+        datetime = datetime.strftime(datetime_format)
+        pid = Process.pid
 
         formatted_string = log_format.gsub(/%\w+/) do |pattern|
-          variable = pattern.gsub('%', '_')
+          variable = pattern.gsub('%', '')
 
           if binding.local_variable_defined?(variable)
             binding.local_variable_get(variable)
@@ -43,6 +43,7 @@ module Rumbrl
 
         "#{formatted_string}\n"
       end
+      # rubocop:enable Lint/UnusedBlockArgument, Lint/UselessAssignment
     end
 
     def method_missing(name, *args)
