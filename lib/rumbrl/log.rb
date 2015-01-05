@@ -11,6 +11,7 @@ module Rumbrl
     attr_reader :logger, :data_format
 
     def_delegators :logger,
+                   :datetime_format,
                    :datetime_format=,
                    :level=,
                    :log,
@@ -50,9 +51,11 @@ module Rumbrl
 
     def log_formatter(log_format)
       proc do |severity, datetime, progname, message|
+        datetime = datetime.strftime(datetime_format) if datetime_format
+
         values = {
           severity: severity,
-          datetime: datetime.strftime(datetime_format),
+          datetime: datetime,
           pid: Process.pid,
           progname: progname,
           message: message
