@@ -1,6 +1,10 @@
 rumbrl
 ======
 
+[![Gem Version](https://badge.fury.io/rb/rumbrl.svg)](http://badge.fury.io/rb/rumbrl)
+[![Code Climate](https://codeclimate.com/github/behance/rumbrl/badges/gpa.svg)](https://codeclimate.com/github/behance/rumbrl)
+[![Code Climate](https://codeclimate.com/github/behance/rumbrl/badges/gpa.svg)](https://codeclimate.com/github/behance/rumbrl)
+
 **R**eally d**UMB** **R**uby **L**ogger
 
 So dumb you'll cry.
