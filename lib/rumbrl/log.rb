@@ -37,8 +37,10 @@ module Rumbrl
     private
 
     def log_file(path)
-      # TODO: make this...less hacky
-      ::File.open(path, File::WRONLY | File::APPEND | File::CREAT)
+      file = ::File.open(path, File::WRONLY | File::APPEND | File::CREAT)
+      # force buffer flush on write
+      file.sync = true
+      file
     end
 
     def write(message, level: :info, data: {})
