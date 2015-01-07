@@ -35,9 +35,11 @@ describe Rumbrl::Grumble do
         log = Rumbrl::Grumble.new('path/to/log', 'weekly', 123)
 
         line = /\[.*\] LEVEL='INFO' CHANNEL='channel' MESSAGE='msg' FOO='bar'\n/
+        hash = { foo: 'bar' }
         expect_any_instance_of(Logger::LogDevice).to receive(:write).with(line)
+        expect(Rumbrl::Smash).to receive(:flatten).with(hash).and_return(hash)
 
-        log.info('channel', 'msg', foo: 'bar')
+        log.info('channel', 'msg', hash)
       end
     end
   end

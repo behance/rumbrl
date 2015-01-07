@@ -1,4 +1,5 @@
 require 'rumbrl/log'
+require 'rumbrl/smash'
 
 module Rumbrl
   # Behance specific logger
@@ -13,6 +14,7 @@ module Rumbrl
 
     def method_missing(name, channel, message, **args)
       format = BASE_LOG_FORMAT
+      args = Smash.flatten(args)
       args.each do |k, v|
         format += " #{k.to_s.upcase}='#{v.to_s.gsub("'", '"')}'"
       end
