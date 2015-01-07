@@ -38,11 +38,6 @@ describe Rumbrl::Log do
     end
 
     context 'method is known' do
-      it 'fails when less than 2 args given' do
-        expect { log.debug('boo') }
-          .to raise_error(RuntimeError, /message and data/)
-      end
-
       it 'logs correctly using default log_format' do
         expect_any_instance_of(Logger::LogDevice)
           .to receive(:write).with(default_log_string('message \["data"\]'))
@@ -78,6 +73,16 @@ describe Rumbrl::Log do
           .to receive(:write).with(expected_string)
 
         log.info('message', 'data')
+      end
+
+      it 'truncates extra values based on format string' do
+        log = Rumbrl::Log.new('path/to/log', 'weekly', 123,
+                              '%s %s %s', '%severity% %message%')
+
+        expect_any_instance_of(Logger::LogDevice)
+          .to receive(:write).with("INFO 1 2 3\n")
+
+        log.info(1, 2, 3, 4, 5)
       end
     end
   end
