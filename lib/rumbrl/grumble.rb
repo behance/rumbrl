@@ -13,7 +13,9 @@ module Rumbrl
 
     def method_missing(name, channel, message, **args)
       format = BASE_LOG_FORMAT
-      args.each { |k, v| format += " #{k.upcase}='#{v.gsub("'", '"')}'" }
+      args.each do |k, v|
+        format += " #{k.to_s.upcase}='#{v.to_s.gsub("'", '"')}'"
+      end
       setup_format(format)
       super(*[name, channel, message])
     end
