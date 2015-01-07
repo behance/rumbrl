@@ -1,5 +1,6 @@
 require 'logger'
 require 'rumbrl/env'
+require 'rumbrl/log'
 
 module Rumbrl
   # an insanely dumb logger creator
@@ -28,14 +29,14 @@ module Rumbrl
       generate_logger
     end
 
-    private
-
     def generate_logger
       logger = Log.new(dest, age, size, data_format, log_format)
       logger.level = level
       logger.datetime_format = time_format
       logger
     end
+
+    private
 
     def log_dest(dir, name)
       return name unless name.is_a? ::String
