@@ -23,13 +23,17 @@ module Rumbrl
     def initialize(path, age, size, data_format, log_format = nil)
       @logger = ::Logger.new(log_file(path), shift_age: age, shift_size: size)
       @data_format = data_format
-      @logger.formatter = log_formatter(log_format) if log_format
+      setup_format(log_format) if log_format
     end
 
     def method_missing(name, *args)
       name = name.to_sym
       return super(name, *args) unless ALLOWED_METHODS.member? name
       write(args, level: name)
+    end
+
+    def setup_format(format)
+      @logger.formatter = log_formatter(format)
     end
 
     private
