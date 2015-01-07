@@ -1,16 +1,16 @@
 require_relative '../spec_helper'
 
 describe Rumbrl::Smash do
-  describe '.face' do
+  describe '.flatten' do
     it 'does not change flat hash' do
       target = { bar: 'foo' }
-      expect(Rumbrl::Smash.face(target)).to eql target
+      expect(Rumbrl::Smash.flatten(target)).to eql target
     end
 
     it 'flattens nested hashes with namespaced keys' do
       target = { bar: 'foo', baz: { wee: 'boo' } }
       flattened = { bar: 'foo', baz_wee: 'boo' }
-      expect(Rumbrl::Smash.face(target)).to eql flattened
+      expect(Rumbrl::Smash.flatten(target)).to eql flattened
     end
   end
 
