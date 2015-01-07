@@ -23,7 +23,7 @@ module Rumbrl
     def initialize(path, age, size, data_format, log_format = nil)
       @logger = ::Logger.new(log_file(path), shift_age: age, shift_size: size)
       @data_format = data_format
-      set_format(log_format) if log_format
+      setup_format(log_format) if log_format
     end
 
     def method_missing(name, *args)
@@ -32,7 +32,7 @@ module Rumbrl
       write(args, level: name)
     end
 
-    def set_format(format)
+    def setup_format(format)
       @logger.formatter = log_formatter(format)
     end
 

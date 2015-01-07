@@ -4,7 +4,7 @@ module Rumbrl
     def self.face(namespace: '', **target)
       res = {}
       # flattens a hash
-      target.each do |k,v|
+      target.each do |k, v|
         cur_nspace = build_namespace(namespace, k)
         if v.is_a? Hash
           res.update face(**v, namespace: cur_nspace)
@@ -17,7 +17,7 @@ module Rumbrl
 
     def self.build_namespace(prev = '', cur = '')
       prev = "#{prev}_" unless prev.empty?
-      "#{prev}#{cur.to_s}"
+      "#{prev}#{cur}"
     end
   end
 end

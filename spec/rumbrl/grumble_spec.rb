@@ -25,7 +25,7 @@ describe Rumbrl::Grumble do
   describe '#method_missing' do
     context 'unknown method is called' do
       it 'fails on unknown method call' do
-        expect { log.this_is_a_missing_method 'sadtimes channel', 'sadtimes', {} }
+        expect { log.this_is_a_missing_method 'channel', 'sadtimes', {} }
           .to raise_error(NoMethodError)
       end
     end
@@ -37,7 +37,7 @@ describe Rumbrl::Grumble do
         line = /\[.*\] LEVEL='INFO' CHANNEL='channel' MESSAGE='msg' FOO='bar'\n/
         expect_any_instance_of(Logger::LogDevice).to receive(:write).with(line)
 
-        log.info('channel', 'msg', {foo: 'bar'})
+        log.info('channel', 'msg', foo: 'bar')
       end
     end
   end
