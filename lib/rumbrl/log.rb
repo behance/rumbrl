@@ -21,7 +21,10 @@ module Rumbrl
                    :info?
 
     def initialize(path, age, size, data_format, log_format = nil)
-      @logger = ::Logger.new(log_file(path), shift_age: age, shift_size: size)
+      log_target = path
+      log_target = log_file(path) unless path.class == ::IO
+
+      @logger = ::Logger.new(log_target, shift_age: age, shift_size: size)
       @data_format = data_format
       setup_format(log_format) if log_format
     end
