@@ -21,7 +21,11 @@ module Rumbrl
       @size ||= (size || Env.shift_size)
       @age ||= (age || Env.shift_age)
       @level ||= (level || ::Logger::INFO)
-      @dest = log_dest path, nm
+      if path.class == ::IO
+        @dest = path
+      else
+        @dest = log_dest(path, nm)
+      end
     end
 
     def generate
@@ -45,6 +49,7 @@ module Rumbrl
     end
 
     def init_path(path)
+      return if path.class == ::IO
       dir = ::File.dirname path
       ::Dir.mkdir(dir) unless ::File.directory? dir
     end
