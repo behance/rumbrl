@@ -46,3 +46,15 @@ Time format (`::Logger#datetime_format`). Defaults to `"[%F %T %z]"`
 #### `LOG_DATA_FORMAT`
 
 How to format log data. Defaults to `[%s] [%s]`
+
+#### `LOG_APP_NAME`
+
+Used by the formatter object to create a KV `APP_NAME=` string in the log entry. Full format is:
+
+```
+APP_NAME="#{ENV['LOG_APP_NAME']}::#{progname}"
+```
+
+Where `progname` is set in your logger.
+
+The formatter is meant to be inherited from, you can implement your own version of `format_msg`. In conjunction with the `Smash` object, you can easily format objects into log entries that are readily consumed by [SumoLogic](https://www.sumologic.com/)
