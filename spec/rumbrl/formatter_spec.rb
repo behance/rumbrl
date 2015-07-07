@@ -3,6 +3,10 @@ require_relative '../spec_helper'
 describe Rumbrl::Formatter do
   let(:formatter) { Rumbrl::Formatter.new }
 
+  before :each do
+    allow(ENV).to receive(:fetch).and_return 'SPECDEFAULT'
+  end
+
   describe '#omit_empty?' do
     it 'defaults to true' do
       expect(formatter.omit_empty?).to be true
@@ -41,18 +45,12 @@ describe Rumbrl::Formatter do
         formatter.omit_empty(false)
       end
 
-      context ", ENV['LOG_APP_NAME'] is not set" do
-        before :each do
-          allow(ENV).to receive(:fetch).and_return 'SPECDEFAULT'
-        end
+      context 'and msg is a string' do
+        it 'it returns a formatted string' do
+          expected = "[INFO] APP_NAME=SPECDEFAULT::SPECS stuff\n"
+          res = formatter.call('INFO', nil, 'SPECS', 'stuff')
 
-        context 'and msg is a string' do
-          it 'it returns a formatted string' do
-            expected = "[INFO] APP_NAME=SPECDEFAULT::SPECS stuff\n"
-            res = formatter.call('INFO', nil, 'SPECS', 'stuff')
-
-            expect(res).to eq expected
-          end
+          expect(res).to eq expected
         end
       end
     end
