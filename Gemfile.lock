@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rumbrl (0.4.2)
+    rumbrl (0.5.0)
 
 GEM
   remote: https://rubygems.org/
