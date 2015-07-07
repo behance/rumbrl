@@ -7,7 +7,7 @@ module Rumbrl
     def call(severity, _timestamp, prog, msg)
       return '' if omit_empty? && empty?(msg)
 
-      "[#{severity}] APP_NAME=#{appname(prog)} #{format_msg(msg)}\n"
+      "APP_NAME=#{appname(prog)} SEVERITY=#{severity} #{format_msg(msg)}\n"
     end
 
     def omit_empty(switch)

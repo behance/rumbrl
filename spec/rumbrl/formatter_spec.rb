@@ -47,7 +47,7 @@ describe Rumbrl::Formatter do
 
       context 'and msg is a string' do
         it 'it returns a formatted string' do
-          expected = "[INFO] APP_NAME=SPECDEFAULT::SPECS stuff\n"
+          expected = "APP_NAME=SPECDEFAULT::SPECS SEVERITY=INFO stuff\n"
           res = formatter.call('INFO', nil, 'SPECS', 'stuff')
 
           expect(res).to eq expected
