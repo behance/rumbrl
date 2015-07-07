@@ -43,14 +43,13 @@ describe Rumbrl::Formatter do
 
       context ", ENV['LOG_APP_NAME'] is not set" do
         before :each do
-          allow(ENV).to receive(:fetch).and_return ''
+          allow(ENV).to receive(:fetch).and_return 'SPECDEFAULT'
         end
 
         context 'and msg is a string' do
           it 'it returns a formatted string' do
-            time = Time.now
-            expected = "[#{time}] INFO - APP_NAME=SPECS stuff\n"
-            res = formatter.call('INFO', Time.now, 'SPECS', 'stuff')
+            expected = "[INFO] APP_NAME=SPECDEFAULT::SPECS stuff\n"
+            res = formatter.call('INFO', nil, 'SPECS', 'stuff')
 
             expect(res).to eq expected
           end
