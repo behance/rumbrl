@@ -12,6 +12,12 @@ describe Rumbrl::Smash do
       flattened = { bar: 'foo', baz_wee: 'boo' }
       expect(Rumbrl::Smash.flatten(target)).to eql flattened
     end
+
+    it 'flattens nested hashes with mixed keys' do
+      target = { 'bar' => 'foo', baz: { 'wee' => 'boo' } }
+      flattened = { bar: 'foo', baz_wee: 'boo' }
+      expect(Rumbrl::Smash.flatten(target)).to eql flattened
+    end
   end
 
   describe '.build_namespace' do
