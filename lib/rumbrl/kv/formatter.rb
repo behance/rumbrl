@@ -7,7 +7,7 @@ module Rumbrl
     # Log4r formatter that turns hashable objects into KV log entries
     class Formatter < ::Rumbrl::Formatter
       def format_msg(msg)
-        super unless msg.is_a?(Hash)
+        return "MESSAGE='#{super}'" unless msg.is_a?(Hash)
 
         format_data ::Rumbrl::Smash.flatten(msg)
       end
