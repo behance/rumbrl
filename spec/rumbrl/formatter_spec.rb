@@ -3,10 +3,6 @@ require_relative '../spec_helper'
 describe Rumbrl::Formatter do
   let(:formatter) { Rumbrl::Formatter.new }
 
-  before :each do
-    allow(ENV).to receive(:fetch).and_return 'SPECDEFAULT'
-  end
-
   describe '#omit_empty?' do
     it 'defaults to true' do
       expect(formatter.omit_empty?).to be true
@@ -47,7 +43,7 @@ describe Rumbrl::Formatter do
 
       context 'and msg is a string' do
         it 'it returns a formatted string' do
-          expected = "APP_NAME=SPECDEFAULT::SPECS SEVERITY=INFO stuff\n"
+          expected = "stuff\n"
           res = formatter.call('INFO', nil, 'SPECS', 'stuff')
 
           expect(res).to eq expected

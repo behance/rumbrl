@@ -4,10 +4,10 @@ require 'rumbrl/smash'
 module Rumbrl
   # Log4r formatter
   class Formatter < ::Logger::Formatter
-    def call(severity, _timestamp, prog, msg)
+    def call(_severity, _timestamp, _prog, msg)
       return '' if omit_empty? && empty?(msg)
 
-      "APP_NAME=#{appname(prog)} SEVERITY=#{severity} #{format_msg(msg)}\n"
+      "#{format_msg(msg)}\n"
     end
 
     def omit_empty(switch)
@@ -31,15 +31,6 @@ module Rumbrl
 
     def empty?(obj)
       obj.respond_to?(:empty?) && obj.empty?
-    end
-
-    def app_namespace
-      ENV.fetch('LOG_APP_NAME', 'RubyApplication')
-    end
-
-    def appname(progname)
-      progname = (progname.nil? || progname.strip.empty?) ? '' : progname.strip
-      (progname.empty?) ? app_namespace : "#{app_namespace}::#{progname}"
     end
   end
 end
