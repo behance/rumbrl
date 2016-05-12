@@ -1,22 +1,55 @@
 require_relative '../spec_helper'
 
+# Mock class for testing
+class PopTart
+  def to_log
+    {
+      frosting: 'vanilla',
+      filling: 'strawberry'
+    }
+  end
+end
+
+class NotPopTart
+end
+
 describe Rumbrl::Smash do
   describe '.flatten' do
     it 'does not change flat hash' do
-      target = { bar: 'foo' }
-      expect(Rumbrl::Smash.flatten(target)).to eql target
+      source = { bar: 'foo' }
+      expect(Rumbrl::Smash.flatten(source)).to eql(source)
     end
 
     it 'flattens nested hashes with namespaced keys' do
-      target = { bar: 'foo', baz: { wee: 'boo' } }
-      flattened = { bar: 'foo', baz_wee: 'boo' }
-      expect(Rumbrl::Smash.flatten(target)).to eql flattened
+      source = { bar: 'foo', baz: { wee: 'boo' } }
+      target = { bar: 'foo', baz_wee: 'boo' }
+      expect(Rumbrl::Smash.flatten(source)).to eql(target)
     end
 
     it 'flattens nested hashes with mixed keys' do
-      target = { 'bar' => 'foo', baz: { 'wee' => 'boo' } }
-      flattened = { bar: 'foo', baz_wee: 'boo' }
-      expect(Rumbrl::Smash.flatten(target)).to eql flattened
+      source = { 'bar' => 'foo', baz: { 'wee' => 'boo' } }
+      target = { bar: 'foo', baz_wee: 'boo' }
+      expect(Rumbrl::Smash.flatten(source)).to eql(target)
+    end
+
+    context 'given an object' do
+      context 'that responds to `to_log`' do
+        it 'flattens hash representation of the object' do
+          source = { bar: 'foo', poptart: PopTart.new }
+          target = { bar: 'foo',
+                     poptart_frosting: 'vanilla',
+                     poptart_filling: 'strawberry' }
+          expect(Rumbrl::Smash.flatten(source)).to eql(target)
+        end
+      end
+
+      context 'that does not responds to `to_log`' do
+        it 'does not flatten the object' do
+          not_poptart = NotPopTart.new
+          source = { bar: 'foo', poptart: not_poptart }
+          expect(Rumbrl::Smash.flatten(source)).to eql(source)
+        end
+      end
     end
   end
 

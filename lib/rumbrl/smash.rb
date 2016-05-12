@@ -1,17 +1,18 @@
+require 'rumbrl/ext/hash'
+
 module Rumbrl
   # serializes & flattens hashes
   class Smash
     def self.flatten(target, namespace: '')
-      res = {}
-      target.each_pair do |k, v|
-        cur_nspace = build_namespace(namespace, k)
-        if v.is_a? Hash
-          res.update flatten(v, namespace: cur_nspace)
-          next
+      target.each_with_object({}) do |(k, v), res|
+        cur_namespace = build_namespace(namespace, k)
+
+        if v.respond_to?(:to_log)
+          res.update(flatten(v.to_log, namespace: cur_namespace))
+        else
+          res.update(cur_namespace.to_sym => v)
         end
-        res[cur_nspace.to_sym] = v
       end
-      res
     end
 
     def self.build_namespace(prev = '', cur = '')
