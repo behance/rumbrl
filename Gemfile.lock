@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rumbrl (1.0.1)
+    rumbrl (1.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -60,3 +60,6 @@ DEPENDENCIES
   rubocop (~> 0.24)
   rumbrl!
   shoulda-matchers (~> 2.7)
+
+BUNDLED WITH
+   1.11.2
